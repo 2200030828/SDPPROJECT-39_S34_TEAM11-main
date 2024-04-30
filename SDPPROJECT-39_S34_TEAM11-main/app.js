@@ -13,24 +13,19 @@ var express = require("express"),
   Warden = require("./models/warden"),
   Hod = require("./models/hod"),
   Leave = require("./models/leave");
+  const dotenv = require('dotenv').config()
 
 var moment = require("moment");
 
-var url =process.env.DATABASEURL|| "mongodb://localhost/LeaveApp";
-mongoose
-  .connect(url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  })
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch(err => {
-    console.log("Error:", err.message);
-  });
-
+var url = process.env.URL;
+const db = mongoose.connection;
+mongoose.connect(process.env.URL)
+.then(()=>{
+  console.log("Database Connectedd Succesfully!")
+})
+.catch((err)=>{
+  console.log(err.message)
+})
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(bodyparser.json());
